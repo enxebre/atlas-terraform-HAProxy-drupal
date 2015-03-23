@@ -55,19 +55,19 @@ Step 1: Create a Consul Cluster
 
 Step 2: Build an HAProxy AMI
 ----------------------------
-1. Build an AMI with HAProxy installed. To do this, run `packer push -create haproxy.json` in the HAProxy packer directory. This will send the build configuration to Atlas so it can build your HAProxy AMI remotely. 
+1. Build an AMI with HAProxy installed. To do this, run `packer push -create haproxy.json` in the ops/HAProxy directory. This will send the build configuration to Atlas so it can build your HAProxy AMI remotely. 
 2. View the status of your build in the Operations tab of your [Atlas account](atlas.hashicorp.com/operations).
 
 Step 3: Build a Drupal AMI
 --------------------------
-1. Build an AMI with the Drupal requirements Apache, PHP, [Composer](https://getcomposer.org/) and [drush](http://www.drush.org/en/master/) installed. To do this, run `packer push -create apache-php.json` in the ops directory. This will send the build configuration to Atlas so it can remotely build your AMI with Apache and PHP installed.
+1. Build an AMI with the Drupal requirements Apache, PHP, [Composer](https://getcomposer.org/) and [drush](http://www.drush.org/en/master/) installed. To do this, run `packer push -create apache-php.json` in the ops/apache_php directory. This will send the build configuration to Atlas so it can remotely build your AMI with Apache and PHP installed.
 2. View the status of your build in the Operations tab of your [Atlas account](atlas.hashicorp.com/operations).
 3. This creates an AMI with Apache and PHP installed, and now you need to send the actual Drupal application code to Atlas and link it to the build configuration. To do this, put your Drupal code in the app folder or follow instructions [here](https://www.drupal.org/project/drupal/git-instructions) for cloning a clean drupal installation and simply run `vagrant push` in the app directory. This will send your full Drupal application code to Atlas. Then link the Drupal application with the Apache+PHP build configuration by clicking on your build configuration, then 'Links' in the left navigation. Complete the form with your username, 'drupal' as the application name, and '/app' as the destination path.
 4. Now that your application and build configuration are linked, simply rebuild the Apache+PHP configuration and you will have a fully-baked AMI with Apache and PHP installed and your Drupal application code in place.
 
 Step 4: Build a MySQL AMI
 -------------------------
-1. Build an AMI with MySQL installed. To do this, run `packer push -create mysql.json` in the ops directory. This will send the build configuration to Atlas so it can build your MySQL AMI remotely. 
+1. Build an AMI with MySQL installed. To do this, run `packer push -create mysql.json` in the ops/mysql directory. This will send the build configuration to Atlas so it can build your MySQL AMI remotely. 
 2. View the status of your build in the Operations tab of your [Atlas account](atlas.hashicorp.com/operations).
 
 Step 5: Deploy HAProxy, Drupal and Mysql
