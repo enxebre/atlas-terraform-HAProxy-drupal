@@ -14,7 +14,7 @@ Introduction and Configuring HAProxy + Drupal + Mysql
 -----------------------------------------------
 Before jumping into configuration steps, it's helpful to have a mental model for how services connect and how the Atlas workflow fits in. 
 
-For HAProxy to work properly, it needs to have a real-time list of backend nodes to balance traffic between. In this example, HAProxy needs to have a real-time list of healthy Node.js nodes. To accomplish this, we use [Consul](https://consul.io) and [Consul Template](https://github.com/hashicorp/consul-template). Any time a server is created, destroyed, or changes in health state, the HAProxy configuration updates to match by using the Consul Template `haproxy.ctmpl`. Pay close attention to the backend stanza:
+For HAProxy to work properly, it needs to have a real-time list of backend nodes to balance traffic between. In this example, HAProxy needs to have a real-time list of healthy php nodes. To accomplish this, we use [Consul](https://consul.io) and [Consul Template](https://github.com/hashicorp/consul-template). Any time a server is created, destroyed, or changes in health state, the HAProxy configuration updates to match by using the Consul Template `haproxy.ctmpl`. Pay close attention to the backend stanza:
 
 ```
 backend webs
@@ -23,7 +23,7 @@ backend webs
     server {{.Node}} {{.Address}}:{{.Port}}{{end}}
 ```
 
-Consul Template will query Consul for all web servers with the tag "nodejs", and then iterate through the list to populate the HAProxy configuration. When rendered, `haproxy.cfg` will look like:
+Consul Template will query Consul for all web servers with the tag "php", and then iterate through the list to populate the HAProxy configuration. When rendered, `haproxy.cfg` will look like:
 
 ```
 backend webs
@@ -146,6 +146,6 @@ resource "aws_instance" "mysql" {
 Final Step: Test HAProxy
 ------------------------
 1. Navigate to your HAProxy stats page by going to it's Public IP on port 1936 and path /haproxy?stats. For example 52.1.212.85:1936/haproxy?stats
-2. In a new tab, hit your HAProxy Public IP on port 8080 a few times. You'll see in the stats page that your requests are being balanced evenly between the Node.js nodes. 
+2. In a new tab, hit your HAProxy Public IP on port 8080 a few times. You'll see in the stats page that your requests are being balanced evenly between the apache-php nodes. 
 3. That's it! You just deployed HAProxy, Drupal8 and Mysql. If you are deploying a clean Drupal installation you can follow steps here for [installing drupal](https://www.drupal.org/documentation/install)
 4. Navigate to the [Runtime tab](https://atlas.hashicorp.com/runtime) in your Atlas account and click on the newly created infrastructure. You'll now see the real-time health of all your nodes and services!
