@@ -146,6 +146,6 @@ resource "aws_instance" "mysql" {
 Final Step: Test HAProxy
 ------------------------
 1. Navigate to your HAProxy stats page by going to it's Public IP on port 1936 and path /haproxy?stats. For example 52.1.212.85:1936/haproxy?stats
-2. In a new tab, hit your HAProxy Public IP on port 8080 a few times. You'll see in the stats page that your requests are being balanced evenly between the apache-php nodes. 
+2. In a new tab, hit your HAProxy Public IP on port 8080 a few times. You'll see in the stats page that your requests are being balanced evenly between the drupal nodes. 
 3. That's it! You just deployed HAProxy, Drupal8 and Mysql. If you are deploying a clean Drupal installation you can follow steps here for [installing drupal](https://www.drupal.org/documentation/install)
 4. Navigate to the [Runtime tab](https://atlas.hashicorp.com/runtime) in your Atlas account and click on the newly created infrastructure. You'll now see the real-time health of all your nodes and services!
