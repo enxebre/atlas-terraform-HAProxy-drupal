@@ -41,7 +41,7 @@
     "post-processors": [
       {
         "type": "atlas",
-        "artifact": "<username>//mysql",
+        "artifact": "<username>/mysql",
         "artifact_type": "aws.ami",
         "metadata": {
           "created_at": "{{timestamp}}"

@@ -5,7 +5,16 @@ sudo apt-get install -y -qq \
 	php5 \
 	php5-mysql \
 	apache2 \
-        php5-gd
+    php5-gd
+
+# install composer
+sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /bin/composer
+
+# install drush
+sudo composer global require drush/drush:dev-master
+sudo ln -sf /root/.composer/vendor/bin/drush /bin/
+
 # move application files to apache folder
 sudo mv /application/app/* /var/www/html
 

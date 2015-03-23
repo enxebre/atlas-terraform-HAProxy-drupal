@@ -1,6 +1,6 @@
-HAProxy, Drupal and Node.js
+HAProxy, Drupal and Mysql
 ===================
-This repository and walkthrough guides you through deploying HAProxy, Apache serving a Drupal8 site using a Mysql server on AWS.
+This repository and walkthrough guides you through deploying HAProxy, Apache serving a Drupal8 site using a Mysql server on AWS based on other [examples](https://github.com/hashicorp/atlas-examples).
 
 General setup
 -------------
@@ -34,7 +34,7 @@ backend webs
 ```
 This setup allows us to destroy and create backend servers at scale with confidence that the HAProxy configuration will always be up-to-date. You can think of Consul and Consul Template as the connective webbing between services. 
 
-Consul Template will query Consul for all "database" servers with the tag "mysql", and then iterate through the list to populate the PHP configuration. When rendered, `settings.php` will look like:
+Consul Template will query Consul for all "database" servers with the tag "mysql", and then iterate through the list to populate the PHP/Drupal configuration. When rendered, `settings.php` will look like:
 
 ```
 $databases = array();
@@ -60,9 +60,9 @@ Step 2: Build an HAProxy AMI
 
 Step 3: Build a Drupal AMI
 --------------------------
-1. Build an AMI with the Drupal requirements Apache and PHP installed. To do this, run `packer push -create apache-php.json` in the ops directory. This will send the build configuration to Atlas so it can remotely build your AMI with Apache and PHP installed.
+1. Build an AMI with the Drupal requirements Apache, PHP, [Composer](https://getcomposer.org/) and [drush](http://www.drush.org/en/master/) installed. To do this, run `packer push -create apache-php.json` in the ops directory. This will send the build configuration to Atlas so it can remotely build your AMI with Apache and PHP installed.
 2. View the status of your build in the Operations tab of your [Atlas account](atlas.hashicorp.com/operations).
-3. This creates an AMI with Apache and PHP installed, and now you need to send the actual Wordpress application code to Atlas and link it to the build configuration. To do this, simply run `vagrant push` in the app directory. This will send your full Wordpress application code to Atlas. Then link the Wordpress application with the Apache+PHP build configuration by clicking on your build configuration, then 'Links' in the left navigation. Complete the form with your username, 'drupal' as the application name, and '/app' as the destination path.
+3. This creates an AMI with Apache and PHP installed, and now you need to send the actual Drupal application code to Atlas and link it to the build configuration. To do this, put your Drupal code in the app folder or follow instructions [here](https://www.drupal.org/project/drupal/git-instructions) for cloning drupal clean drupal installation and simply run `vagrant push` in the app directory. This will send your full Drupal application code to Atlas. Then link the Drupal application with the Apache+PHP build configuration by clicking on your build configuration, then 'Links' in the left navigation. Complete the form with your username, 'drupal' as the application name, and '/app' as the destination path.
 4. Now that your application and build configuration are linked, simply rebuild the Apache+PHP configuration and you will have a fully-baked AMI with Apache and PHP installed and your Drupal application code in place.
 
 Step 4: Build a MySQL AMI
@@ -147,5 +147,5 @@ Final Step: Test HAProxy
 ------------------------
 1. Navigate to your HAProxy stats page by going to it's Public IP on port 1936 and path /haproxy?stats. For example 52.1.212.85:1936/haproxy?stats
 2. In a new tab, hit your HAProxy Public IP on port 8080 a few times. You'll see in the stats page that your requests are being balanced evenly between the Node.js nodes. 
-3. That's it! You just deployed HAProxy, Drupal8 and Mysql. If your database in empty you can follow steps here for installing drupal (https://www.drupal.org/documentation/install)
+3. That's it! You just deployed HAProxy, Drupal8 and Mysql. If you are deploying a clean Drupal installation you can follow steps here for [installing drupal](https://www.drupal.org/documentation/install)
 4. Navigate to the [Runtime tab](https://atlas.hashicorp.com/runtime) in your Atlas account and click on the newly created infrastructure. You'll now see the real-time health of all your nodes and services!
