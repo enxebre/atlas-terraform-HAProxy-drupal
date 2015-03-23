@@ -1,0 +1,8 @@
+{
+    "leave_on_terminate": true,
+    "service": {
+        "name": "web",
+        "port": 80,
+        "tags": ["php"]
+    }
+}
