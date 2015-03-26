@@ -1,6 +1,6 @@
 HAProxy, Drupal and Mysql
 ===================
-This repository and walkthrough guides you through deploying HAProxy, Apache serving a Drupal8 site using a Mysql server on AWS. This is been merged now in [atlas-examples repo](https://github.com/hashicorp/atlas-examples) so this repo will be improved adding new functionality so not just a basic generic example.
+This repository and walkthrough guides you through deploying HAProxy, Apache serving a Drupal8 site using a Mysql server on AWS based on other [atlas-examples](https://github.com/hashicorp/atlas-examples). This is been merged now in [atlas-examples repo](https://github.com/hashicorp/atlas-examples) so this repo will be improved adding new functionality so not just a basic generic example.
 
 General setup
 -------------
